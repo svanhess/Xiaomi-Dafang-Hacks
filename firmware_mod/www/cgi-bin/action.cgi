@@ -74,9 +74,16 @@ if [ -n "$F_cmd" ]; then
       echo "</pre>"
       return
     ;;
+
     reboot)
-      echo "Rebooting device..."
-      /sbin/reboot
+      /sbin/reboot && \
+      cat << EOF
+
+      <HTML>
+        <meta http-equiv="Refresh" content="1; url=/">
+      </HTML>
+
+EOF
       return
     ;;
 

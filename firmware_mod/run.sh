@@ -200,4 +200,7 @@ for i in /system/sdcard/config/autostart/*; do
   $i
 done
 
+# Set led states from configs
+/system/sdcard/scripts/led_states.sh
+
 echo "Startup finished!" >> $LOGPATH

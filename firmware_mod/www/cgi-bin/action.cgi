@@ -94,32 +94,39 @@ EOF
     ;;
 
     blue_led_on)
+      echo "ON" > "/system/sdcard/config/blue_led.conf"
       setgpio 38 1
       setgpio 39 0
     ;;
 
     blue_led_off)
+      echo "OFF" > "/system/sdcard/config/blue_led.conf"
       setgpio 39 1
     ;;
 
     yellow_led_on)
+      echo "ON" > "/system/sdcard/config/yellow_led.conf"
       setgpio 38 0
       setgpio 39 1
     ;;
 
     yellow_led_off)
+      echo "OFF" > "/system/sdcard/config/yellow_led.conf"
       setgpio 38 1
     ;;
 
     ir_led_on)
+      echo "ON" > "/system/sdcard/config/ir_led.conf"
       setgpio 49 0
     ;;
 
     ir_led_off)
+      echo "OFF" > "/system/sdcard/config/ir_led.conf"
       setgpio 49 1
     ;;
 
     ir_cut_on)
+      echo "ON" > "/system/sdcard/config/ir_cut.conf"
       setgpio 25 0
       setgpio 26 1
       sleep 1
@@ -128,6 +135,7 @@ EOF
     ;;
 
     ir_cut_off)
+      echo "OFF" > "/system/sdcard/config/ir_cut.conf"
       setgpio 26 0
       setgpio 25 1
       sleep 1
@@ -189,9 +197,9 @@ EOF
       /system/sdcard/bin/motor -d h -s 100
       # /system/sdcard/bin/motor -d v -s 100
     ;;
-    
+
     motor_PTZ)
-       /system/sdcard/scripts/PTZpresets.sh $F_x_axis $F_y_axis                        
+       /system/sdcard/scripts/PTZpresets.sh $F_x_axis $F_y_axis
     ;;
 
     audio_test)

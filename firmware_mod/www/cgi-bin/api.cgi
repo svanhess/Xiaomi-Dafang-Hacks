@@ -155,37 +155,45 @@ if [ -n "$F_action" ]; then
     ;;
 # Control LED and IR
   blue_led_on)
+    echo "ON" > "/system/sdcard/config/blue_led.conf"
     setGpio 38 1
     setGpio 39 0
     getReturn 1234 "success" "Blue LED is On."
     ;;
   blue_led_off)
+    echo "OFF" > "/system/sdcard/config/blue_led.conf"
     setGpio 39 1
     getReturn 1234 "success" "Blue LED is Off."
     ;;
   yellow_led_on)
+    echo "ON" > "/system/sdcard/config/yellow_led.conf"
     setGpio 38 0
     setGpio 39 1
     getReturn 1234 "success" "Yellow LED is On."
     ;;
   yellow_led_off)
+    echo "OFF" > "/system/sdcard/config/yellow_led.conf"
     setGpio 38 1
     getReturn 1234 "success" "Yellow LED is Off."
     ;;
   ir_led_on)
+    echo "ON" > "/system/sdcard/config/ir_led.conf"
     setGpio 49 0
     getReturn 1234 "success" "IR LED is On."
     ;;
   ir_led_off)
+    echo "OFF" > "/system/sdcard/config/ir_led.conf"
     setGpio 49 1
     getReturn 1234 "success" "IR LED is Off."
     ;;
   ir_cut_on)
+    echo "ON" > "/system/sdcard/config/ir_cut.conf"
     setGpio 25 1
     setGpio 26 0
     getReturn 1234 "success" "IR cut is On."
     ;;
   ir_cut_off)
+    echo "OFF" > "/system/sdcard/config/ir_cut.conf"
     setGpio 25 0
     setGpio 26 1
     getReturn 1234 "success" "IR cut is Off."

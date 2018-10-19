@@ -135,10 +135,7 @@ echo 1 > /sys/class/gpio/gpio49/active_low
 echo "Initialized gpios" >> $LOGPATH
 
 ## Set leds to default startup states:
-ir_led off
-ir_cut on
-yellow_led off
-blue_led on
+/system/sdcard/scripts/led_states.sh
 
 ## Load motor driver module:
 insmod /driver/sample_motor.ko
@@ -199,8 +196,5 @@ fi
 for i in /system/sdcard/config/autostart/*; do
   $i
 done
-
-# Set led states from configs
-/system/sdcard/scripts/led_states.sh
 
 echo "Startup finished!" >> $LOGPATH

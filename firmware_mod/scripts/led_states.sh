@@ -28,3 +28,10 @@ if [ ! -e /system/sdcard/config/blue_led.conf ]; then
 fi
 val=$( cat /system/sdcard/config/blue_led.conf | tr '[:upper:]' '[:lower:]' )
 blue_led $val
+
+
+if [ ! -e /system/sdcard/config/rtsp_nightvision.conf ]; then
+	echo "0" > /system/sdcard/config/rtsp_nightvision.conf
+fi
+val=$( cat /system/sdcard/config/rtsp_nightvision.conf )
+/system/sdcard/bin/setconf -k n -v $val

@@ -353,10 +353,12 @@ EOF
     ;;
 
     toggle-rtsp-nightvision-on)
+      echo "1" > "/system/sdcard/config/rtsp_nightvision.conf"
       /system/sdcard/bin/setconf -k n -v 1
     ;;
 
     toggle-rtsp-nightvision-off)
+      echo "0" > "/system/sdcard/config/rtsp_nightvision.conf"
       /system/sdcard/bin/setconf -k n -v 0
     ;;
 

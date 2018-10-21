@@ -28,7 +28,7 @@ TMPFILE=/tmp/udpate.tmp
 BACKUPEXT=.backup
 _PRINTONLY=0
 _V=0
-_FORCE=0
+_FORCE=1
 _FORCEREBOOT=0
 _BACKUP=0
 

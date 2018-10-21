@@ -147,7 +147,6 @@ getfiles()
         logerror "Github limit exceeded, try with an account (-u option)"
         exit 1
     else
-        echo "${1}"
         for row in $(echo "${1}" | ${JQ} '.[]| select(.type=="file") | .download_url' ); do
             filetoget=$(echo "${row}" | tr -d '"')
             echo ${filetoget}

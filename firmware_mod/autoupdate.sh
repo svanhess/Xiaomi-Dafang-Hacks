@@ -24,6 +24,12 @@ SHA="/system/sdcard/bin/openssl dgst -sha256"
 BASENAME="/system/sdcard/bin/busybox basename"
 FIND="/system/sdcard/bin/busybox find"
 
+[[ -s ~/.githubcreds ]] source ~/.githubcreds
+
+if [[ -n "${GHUSER}" && -n "${GHPASS}" ]]; then
+    CURL="${CURL} -u ${GHUSER}:${GHPASS}"
+fi
+
 TMPFILE=/tmp/udpate.tmp
 BACKUPEXT=.backup
 _PRINTONLY=0
@@ -141,6 +147,7 @@ getfiles()
         logerror "Github limit exceeded, try with an account (-u option)"
         exit 1
     else
+        echo "${1}"
         for row in $(echo "${1}" | ${JQ} '.[]| select(.type=="file") | .download_url' ); do
             filetoget=$(echo "${row}" | tr -d '"')
             echo ${filetoget}

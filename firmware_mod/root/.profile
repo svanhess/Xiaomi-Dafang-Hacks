@@ -10,3 +10,5 @@ PATH=/system/sdcard/bin:$PATH
 alias l='ls -alt'
 
 cd /system/sdcard
+
+[[ -s ~/.githubcreds ]] && source ~/.githubcreds

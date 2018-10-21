@@ -24,7 +24,7 @@ SHA="/system/sdcard/bin/openssl dgst -sha256"
 BASENAME="/system/sdcard/bin/busybox basename"
 FIND="/system/sdcard/bin/busybox find"
 
-[[ -s ~/.githubcreds ]] source ~/.githubcreds
+[[ -s ~/.githubcreds ]] && source ~/.githubcreds
 
 if [[ -n "${GHUSER}" && -n "${GHPASS}" ]]; then
     CURL="${CURL} -u ${GHUSER}:${GHPASS}"

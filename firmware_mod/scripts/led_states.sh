@@ -10,7 +10,7 @@ ir_led $val
 
 
 if [ ! -e /system/sdcard/config/ir_cut.conf ]; then
-	echo "OFF" > /system/sdcard/config/ir_cut.conf
+	echo "ON" > /system/sdcard/config/ir_cut.conf
 fi
 val=$( cat /system/sdcard/config/ir_cut.conf | tr '[:upper:]' '[:lower:]' )
 ir_cut $val
@@ -24,7 +24,7 @@ yellow_led $val
 
 
 if [ ! -e /system/sdcard/config/blue_led.conf ]; then
-	echo "OFF" > /system/sdcard/config/blue_led.conf
+	echo "ON" > /system/sdcard/config/blue_led.conf
 fi
 val=$( cat /system/sdcard/config/blue_led.conf | tr '[:upper:]' '[:lower:]' )
 blue_led $val

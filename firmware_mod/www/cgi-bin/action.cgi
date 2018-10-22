@@ -76,9 +76,11 @@ if [ -n "$F_cmd" ]; then
     ;;
 
     reboot)
-      /sbin/reboot && \
-      cat << EOF
+      rm /system/sdcard/log/*.log
 
+      /sbin/reboot && \
+
+      cat << EOF
       <HTML>
         <meta http-equiv="Refresh" content="1; url=/">
       </HTML>

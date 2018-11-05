@@ -186,9 +186,9 @@ motor(){
     ;;
   status)
     if [ "$2" = "horizontal" ]; then
-        echo $(/system/sdcard/bin/motor -d u -s 0 | grep "x:" | awk  '{print $2}')
+        /system/sdcard/bin/motor -d u -s 0 | grep "x:" | awk  '{print $2}'
     else
-        echo $(/system/sdcard/bin/motor -d u -s 0 | grep "y:" | awk  '{print $2}')
+        /system/sdcard/bin/motor -d u -s 0 | grep "y:" | awk  '{print $2}'
     fi
     ;;
   esac
@@ -348,9 +348,9 @@ motion_tracking(){
 night_mode(){
   case "$1" in
   on)
+    /system/sdcard/bin/setconf -k n -v 1
     ir_led on
     ir_cut off
-    /system/sdcard/bin/setconf -k n -v 1
     ;;
   off)
     ir_led off
@@ -402,4 +402,14 @@ update_axis(){
   if [ "$DISPLAY_AXIS" == "true" ]; then
     OSD="${OSD} ${AXIS}"
   fi
+}
+
+# Reboot the System
+reboot_system() {
+  /sbin/reboot
+}
+
+# Re-Mount the SD Card
+remount_sdcard() {
+  mount -o remount,rw /system/sdcard
 }

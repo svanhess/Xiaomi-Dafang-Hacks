@@ -201,7 +201,7 @@
                         </div>
                     </div>
                     <div class="navbar-item has-dropdown is-hoverable">
-                        <span class="navbar-link">Informations</span>
+                        <span class="navbar-link">Information</span>
                         <div class="navbar-dropdown is-boxed">
                             <a id="network" class="navbar-item onpage" href="javascript: void(0)" data-target="cgi-bin/network.cgi">Network Information</a>
                             <a id="logs" class="navbar-item onpage" href="javascript: void(0)" data-target="logs.html">Logs</a>
@@ -298,9 +298,15 @@
                             </span>
                             <!-- Motion: MQTT Message -->
                             <span class="navbar-item">
-                                <input id="motion_mqtt" type="checkbox" name="motion_mqtt" class="switch" data-checked="cgi-bin/action.cgi?cmd=motion_detection_mqtt_on"
-                                       data-unchecked="cgi-bin/action.cgi?cmd=motion_detection_mqtt_off">
+                                <input id="motion_mqtt" type="checkbox" name="motion_mqtt" class="switch" data-checked="cgi-bin/action.cgi?cmd=motion_detection_mqtt_publish_on"
+                                       data-unchecked="cgi-bin/action.cgi?cmd=motion_detection_mqtt_publish_off">
                                 <label for="motion_mqtt">Motion - MQTT Message</label>
+                            </span>
+                            <!-- Motion: MQTT Message -->
+                            <span class="navbar-item">
+                                <input id="motion_mqtt_snapshot" type="checkbox" name="motion_mqtt_snapshot" class="switch" data-checked="cgi-bin/action.cgi?cmd=motion_detection_mqtt_snapshot_on"
+                                       data-unchecked="cgi-bin/action.cgi?cmd=motion_detection_mqtt_snapshot_off">
+                                <label for="motion_mqtt_snapshot">Motion - MQTT Snapshot</label>
                             </span>
                         </div>
                     </div>

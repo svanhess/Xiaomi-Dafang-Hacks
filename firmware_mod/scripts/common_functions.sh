@@ -52,7 +52,6 @@ blue_led(){
   case "$1" in
   on)
     echo "ON" > "/system/sdcard/config/blue_led.conf"
-    setgpio 38 1
     setgpio 39 0
     ;;
   off)
@@ -78,7 +77,6 @@ yellow_led(){
   on)
     echo "ON" > "/system/sdcard/config/yellow_led.conf"
     setgpio 38 0
-    setgpio 39 1
     ;;
   off)
     echo "OFF" > "/system/sdcard/config/yellow_led.conf"
@@ -165,24 +163,23 @@ motor(){
   case "$1" in
   up)
     /system/sdcard/bin/motor -d u -s "$steps"
+    update_motor_pos $steps
     ;;
   down)
     /system/sdcard/bin/motor -d d -s "$steps"
+    update_motor_pos $steps
     ;;
   left)
     /system/sdcard/bin/motor -d l -s "$steps"
+    update_motor_pos $steps
     ;;
   right)
     /system/sdcard/bin/motor -d r -s "$steps"
+    update_motor_pos $steps
     ;;
-  vcalibrate)
+  reset_pos_count)
     /system/sdcard/bin/motor -d v -s "$steps"
-    ;;
-  hcalibrate)
-    /system/sdcard/bin/motor -d h -s "$steps"
-    ;;
-  calibrate)
-    /system/sdcard/bin/motor -d f -s "$steps"
+    update_motor_pos $steps
     ;;
   status)
     if [ "$2" = "horizontal" ]; then
@@ -192,6 +189,16 @@ motor(){
     fi
     ;;
   esac
+
+}
+
+update_motor_pos(){
+  # Waiting for the motor to run.
+  SLEEP_NUM=$(awk -v a="$1" 'BEGIN{printf ("%f",a*1.3/1000)}')
+  sleep ${SLEEP_NUM//-/}
+  # Display AXIS to OSD
+  update_axis
+  /system/sdcard/bin/setconf -k o -v "$OSD"
 }
 
 # Read the light sensor
@@ -320,8 +327,6 @@ motion_send_mail(){
   esac
 }
 
-
-
 # Control the motion tracking function
 motion_tracking(){
   case "$1" in
@@ -397,8 +402,8 @@ snapshot(){
 
 # Update axis
 update_axis(){
-  source /system/sdcard/config/osd.conf > /dev/null 2>/dev/null
-  AXIS=`/system/sdcard/bin/motor -d s | sed '3d' | awk '{printf ("%s ",$0)}' | awk '{print "X="$2,"Y="$4}'`
+  . /system/sdcard/config/osd.conf > /dev/null 2>/dev/null
+  AXIS=$(/system/sdcard/bin/motor -d s | sed '3d' | awk '{printf ("%s ",$0)}' | awk '{print "X="$2,"Y="$4}')
   if [ "$DISPLAY_AXIS" == "true" ]; then
     OSD="${OSD} ${AXIS}"
   fi

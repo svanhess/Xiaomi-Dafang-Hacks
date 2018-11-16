@@ -13,6 +13,17 @@ Then you can integrate the rtsp stream using the camera ffmpeg component by addi
   name: DaFang3
   input: -rtsp_transport tcp -i rtsp://dafang:8554/unicast
 ```
+Alternatively, you can use the camera's CGI endpoint to serve a single picture. This is significantly lighter on the home assistant's CPU.
+```yaml
+  - platform: generic
+    name: DaFang3
+    username: root
+    password: ismart12
+    authentication: basic
+    still_image_url: https://dafang/cgi-bin/currentpic.cgi
+    verify_ssl: false
+    scan_interval: 5
+```
 
 Most other sensors & actors are easily integrated via [mqtt discovery](https://www.home-assistant.io/docs/mqtt/discovery/). If everything works, integration looks like this (grouped into one group):
 
@@ -72,6 +83,8 @@ Dafang3:
     - switch.dafang3_motion_tracking
     - camera.dafang3_motion_snapshot
     - binary_sensor.dafang3_motion_sensor
+    - cover.dafang3_move_leftright
+    - cover.dafang3_move_updown
 ```
 
 ### To set up mqtt motion detection alerts:
@@ -91,7 +104,10 @@ For your camera to send mqtt motion detection messages it should be enabled by s
 ```
 publish_mqtt_message=true
 ```
-
+To publish the image itself, also set
+```
+publish_mqtt_snapshot=true
+```
 You should now be getting messages on topic `myhome/mycamera/motion` and images on `myhome/mycamera/motion/snapshot` while    `myhome/mycamera/motion/detection` is set to ON
 
 To react on a motion event, in your automations.yaml define something like:

@@ -28,6 +28,9 @@
             } else {
                 $('#message').text("Update in progress");
                 $('#progress').val(log);
+                
+                showLog();
+                
                 // This is the end, start the reboot count down
                 if (log >= 100) {
                     timedRefresh(45);
@@ -37,6 +40,16 @@
             }
         });
 
+    }
+
+    function showLog() {
+        $.ajax({
+            'url': 'cgi-bin/action.cgi?cmd=showlog',
+            'type': 'POST',
+            'data': "logname=5"
+        }).done(function(log) {
+            $('#update-log').html(log);
+        });
     }
 
     function start() {
@@ -85,6 +98,14 @@
         text-align: center;
         padding: 20px;
     }
+
+    .updater button.is-primary {
+        float: none;
+    }
+
+    h4 {
+        text-align: center;
+    }
     
     #start {
         margin: 20px;
@@ -112,4 +133,5 @@
     <h4 class="title is-4">Please note that at the end of the process the camera will reboot without notice</h4>
     <progress id=progress name=progress class="progress is-danger" value=0 max="100"></progress>
     <h1 id=message class="title is-1 has-text-centered"></h1>
+    <div id="update-log"></div>
 </pre>

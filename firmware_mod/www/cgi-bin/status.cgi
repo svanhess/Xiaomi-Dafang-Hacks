@@ -457,7 +457,7 @@ cat << EOF
                 <div class="select">
                     <select name="audioSource">
                         $(
-                           for i in `/system/sdcard/bin/busybox find /usr/share/notify/ /system/sdcard/Media -name *.wav`
+                           for i in `/system/sdcard/bin/busybox find /usr/share/notify/ /system/sdcard/media -name *.wav`
                            do
                                 echo  "<option value=$i> `/system/sdcard/bin/busybox basename $i` </option>"
                            done
@@ -498,10 +498,11 @@ EOF
 PATH="/bin:/sbin:/usr/bin:/media/mmcblk0p2/data/bin:/media/mmcblk0p2/data/sbin:/media/mmcblk0p2/data/usr/bin"
 
 IP=$(ifconfig wlan0 |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}')
-echo "<p>Path to feed : <a href='rtsp://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast'>rtsp://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast</a></p>"
-echo "<p>HLS : <a href='http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast.m3u8'>http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast.m3u8</a></p>"
-echo "<p>MPEG-DASH : <a href='http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast.mpd'>http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast.mpd</a></p>"
-
+echo "<p>Path to feed: <a href='rtsp://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast'>rtsp://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast</a></p>"
+echo "<p>HLS: <a href='http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast.m3u8'>http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast.m3u8</a></p>"
+echo "<p>hls.js web player: <a href='http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)'>http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)</a></p>"
+echo "<p>MPEG-DASH: <a href='http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast.mpd'>http://$IP:$(source /system/sdcard/config/rtspserver.conf; echo $PORT)/unicast.mpd</a></p>"
+echo "HLS & MPEG-DASH require the rtspserver to be started with the -S flag. This may reduce the compatibility with some ip camera viewers such as ipcamviewer etc."
 cat << EOF
     </div>
 </div>

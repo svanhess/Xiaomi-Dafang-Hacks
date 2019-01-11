@@ -160,6 +160,20 @@ killall mosquitto_sub.bin 2> /dev/null
       /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motion/send_mail ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -m "$(motion_send_mail status)"
     ;;
 
+   "${TOPIC}/motion/send_telegram")
+      /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motion/send_telegram ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -m "$(motion_send_telegram status)"
+    ;;
+
+    "${TOPIC}/motion/send_telegram/set ON")
+      motion_send_telegram on
+      /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motion/send_telegram ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -m "$(motion_send_telegram status)"
+    ;;
+
+    "${TOPIC}/motion/send_telegram/set OFF")
+      motion_send_telegram off
+      /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motion/send_telegram ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -m "$(motion_send_telegram status)"
+    ;;
+
     "${TOPIC}/motion/tracking")
       /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motion/tracking ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -m "$(motion_tracking status)"
     ;;
@@ -184,6 +198,22 @@ killall mosquitto_sub.bin 2> /dev/null
       /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motors/vertical ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -m "$(motor status vertical)"
     ;;
 
+    "${TOPIC}/motors/vertical/set "*)
+      COMMAND=$(echo "$line" | awk '{print $2}')
+      MOTORSTATE=$(motor status vertical)
+      if [ -n "$COMMAND" ] && [ "$COMMAND" -eq "$COMMAND" ] 2>/dev/null; then
+        echo Changing motor from $MOTORSTATE to $COMMAND
+        TARGET=$(busybox expr $COMMAND - $MOTORSTATE)
+        echo Moving $TARGET
+        if [ "$TARGET" -lt 0 ]; then
+          motor down $(busybox expr $TARGET \* -1)
+        else
+          motor up $TARGET
+        fi
+      else
+        echo Requested $COMMAND is not a number
+      fi
+    ;;
     "${TOPIC}/motors/horizontal/set left")
       motor left
       /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motors/horizontal ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -m "$(motor status horizontal)"
@@ -192,6 +222,23 @@ killall mosquitto_sub.bin 2> /dev/null
     "${TOPIC}/motors/horizontal/set right")
       motor right
       /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motors/horizontal ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -m "$(motor status horizontal)"
+    ;;
+
+    "${TOPIC}/motors/horizontal/set "*)
+      COMMAND=$(echo "$line" | awk '{print $2}')
+      MOTORSTATE=$(motor status horizontal)
+      if [ -n "$COMMAND" ] && [ "$COMMAND" -eq "$COMMAND" ] 2>/dev/null; then
+        echo Changing motor from $MOTORSTATE to $COMMAND
+        TARGET=$(busybox expr $COMMAND - $MOTORSTATE)
+        echo Moving $TARGET
+        if [ "$TARGET" -lt 0 ]; then
+          motor left $(busybox expr $TARGET \* -1)
+        else
+          motor right $TARGET
+        fi
+      else
+        echo Requested $COMMAND is not a number
+      fi
     ;;
 
     "${TOPIC}/motors/set calibrate")

@@ -3,6 +3,16 @@
 # This file is supposed to bundle some frequently used functions
 # so they can be easily improved in one place and be reused all over the place
 
+include () {
+    [[ -f "$1" ]] && source "$1"
+}
+# Set motor range
+MAX_X=2600
+MAX_Y=700
+MIN_X=0
+MIN_Y=0
+STEP=100
+
 # Initialize  gpio pin
 init_gpio(){
   GPIOPIN=$1
@@ -156,7 +166,7 @@ ir_cut(){
 motor(){
   if [ -z "$2" ]
   then
-    steps=100
+    steps=$STEP
   else
     steps=$2
   fi
@@ -309,19 +319,41 @@ motion_detection(){
 motion_send_mail(){
   case "$1" in
   on)
-    rewrite_config /system/sdcard/config/motion.conf sendemail "true"
+    rewrite_config /system/sdcard/config/motion.conf send_email "true"
     ;;
   off)
-    rewrite_config /system/sdcard/config/motion.conf sendemail "false"
+    rewrite_config /system/sdcard/config/motion.conf send_email "false"
     ;;
   status)
-    status=`awk '/sendemail/' /system/sdcard/config/motion.conf |cut -f2 -d \=`
+    status=$(awk '/send_email/' /system/sdcard/config/motion.conf |cut -f2 -d \=)
     case $status in
       false)
         echo "OFF"
         ;;
       true)
         echo "ON"
+        ;;
+    esac
+  esac
+}
+
+# Control the motion detection Telegram function
+motion_send_telegram(){
+  case "$1" in
+  on)
+    rewrite_config /system/sdcard/config/motion.conf send_telegram "true"
+    ;;
+  off)
+    rewrite_config /system/sdcard/config/motion.conf send_telegram "false"
+    ;;
+  status)
+    status=$(awk '/send_telegram/' /system/sdcard/config/motion.conf |cut -f2 -d \=)
+    case $status in
+      true)
+        echo "ON"
+        ;;
+      *)
+        echo "OFF"
         ;;
     esac
   esac

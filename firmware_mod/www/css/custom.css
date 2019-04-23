@@ -101,7 +101,7 @@ img#liveview {
     zoom: 0;
 }
 
-input[type="text"], input[type="number"] {
+input[type="text"], input[type="number"], input[type="password"] {
     width: initial;
 }
 
@@ -135,3 +135,26 @@ input[type="text"], input[type="number"] {
 }
 
 .footer .dropdown { display: none; }
+
+.form-group .field-label:not(:first-child) {
+    margin: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    flex-grow: unset;
+    flex-shrink: unset;
+    text-align: left;
+}
+
+.form-group .field-label:not(:first-child) label {
+    width: auto;
+}
+
+.form-group .field-label,
+.form-group .field-body {
+    flex-basis: unset;
+    flex-grow: 0;
+}
+
+.form-group .field-body {
+    display: flex;
+}

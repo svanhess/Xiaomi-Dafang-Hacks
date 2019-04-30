@@ -33,9 +33,9 @@ $SERVER["socket"] == ":443" {
     ssl.engine = "enable"
     ssl.pemfile = "/system/sdcard/config/lighttpd.pem"
 
-    auth.backend = "htdigest"
-    auth.backend.htdigest.userfile = "/system/sdcard/config/lighttpd.user"
-    auth.require = ( "/" => ("method" => "basic", "realm" => "all", "require" => "user=root"))
+    # auth.backend = "htdigest"
+    # auth.backend.htdigest.userfile = "/system/sdcard/config/lighttpd.user"
+    # auth.require = ( "/" => ("method" => "basic", "realm" => "all", "require" => "user=root"))
 }
 
 
